@@ -9,8 +9,6 @@ services:
     volumes:
       - /tmp:/tmp
       - /var/run/docker.sock:/var/run/docker.sock
-
-#      - /var/lib/docker:/var/lib/docker
     environment:
       DB_TYPE: postgresql
       DB_USER: digdag
@@ -31,6 +29,7 @@ services:
       POSTGRES_DB: digdag
     volumes:
       - db-data:/var/lib/postgresql
+    command: postgres -c 'max_connections=512'
 volumes:
   db-data:
     driver: local

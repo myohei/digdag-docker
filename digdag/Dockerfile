@@ -6,6 +6,7 @@ FROM docker:18.09-dind
 MAINTAINER yohei.maeda@ghs.tokyo
 
 # java
+# https://github.com/docker-library/openjdk/blob/266f01a904151eab55302df4a306a5042e77f58b/12/jdk/alpine/Dockerfile
 ENV JAVA_HOME /opt/openjdk-12
 ENV PATH $JAVA_HOME/bin:$PATH
 
@@ -56,13 +57,6 @@ COPY digdag.properties /etc/digdag.properties
 USER root
 
 WORKDIR /var/lib/digdag
-
-#ENV DB_TYPE=postgresql \
-#    DB_USER=digdag \
-#    DB_PASSWORD=digdag \
-#    DB_HOST=postgres \
-#    DB_PORT=5432 \
-#    DB_NAME=digdag
 
 
 EXPOSE 65432
