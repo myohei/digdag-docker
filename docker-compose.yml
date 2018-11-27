@@ -1,0 +1,36 @@
+version: '3'
+services:
+  digdag:
+    build:
+      context: ./digdag
+      dockerfile: ./Dockerfile
+    ports:
+      - "65432:65432"
+    volumes:
+      - /tmp:/tmp
+      - /var/run/docker.sock:/var/run/docker.sock
+
+#      - /var/lib/docker:/var/lib/docker
+    environment:
+      DB_TYPE: postgresql
+      DB_USER: digdag
+      DB_PASSWORD: digdag
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: digdag
+    links:
+      - postgres
+    privileged: true
+
+  postgres:
+    image: postgres:11-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: digdag
+      POSTGRES_USER: digdag
+      POSTGRES_DB: digdag
+    volumes:
+      - db-data:/var/lib/postgresql
+volumes:
+  db-data:
+    driver: local
