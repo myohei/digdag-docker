@@ -11,6 +11,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./log:/var/log/digdag
     environment:
+      DIGDAG_PORT: 65432
       DB_TYPE: postgresql
       DB_USER: digdag
       DB_PASSWORD: digdag
