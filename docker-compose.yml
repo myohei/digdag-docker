@@ -9,6 +9,7 @@ services:
     volumes:
       - /tmp:/tmp
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./log:/var/log/digdag
     environment:
       DB_TYPE: postgresql
       DB_USER: digdag
@@ -33,3 +34,5 @@ services:
 volumes:
   db-data:
     driver: local
+#  digdag:
+#    driver: local
