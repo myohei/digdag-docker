@@ -1,0 +1,7 @@
+version: '3'
+services:
+  digdag:
+    ports:
+      - "65433:65433"
+    environment:
+      DIGDAG_PORT: 65433

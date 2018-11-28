@@ -57,9 +57,9 @@ USER root
 WORKDIR /var/lib/digdag
 
 
-EXPOSE 65432
+EXPOSE $DIGDAG_PORT
 CMD exec digdag server --bind 0.0.0.0 \
-                       --port 65432 \
+                       --port $DIGDAG_PORT \
                        --config /etc/digdag.properties \
 		               --log /var/log/digdag/logs/server \
 		               --task-log /var/log/digdag/logs/tasks \
