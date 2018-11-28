@@ -6,31 +6,29 @@ FROM docker:18.09-dind
 MAINTAINER yohei.maeda@ghs.tokyo
 
 # java
-# https://github.com/docker-library/openjdk/blob/266f01a904151eab55302df4a306a5042e77f58b/12/jdk/alpine/Dockerfile
-ENV JAVA_HOME /opt/openjdk-12
-ENV PATH $JAVA_HOME/bin:$PATH
+# https://github.com/docker-library/openjdk/blob/266f01a904/8/jdk/alpine/Dockerfile
+# Default to UTF-8 file.encoding
+ENV LANG C.UTF-8
 
-# http://jdk.java.net/
-ENV JAVA_VERSION 12-ea+20
-ENV JAVA_URL https://download.java.net/java/early_access/alpine/20/binaries/openjdk-12-ea+20_linux-x64-musl_bin.tar.gz
-ENV JAVA_SHA256 125162b84369be592f8355624075f579795343a835706f0cbde065882d9404a1
-# "For Alpine Linux, builds are produced on a reduced schedule and may not be in sync with the other platforms."
+# add a simple script that can auto-detect the appropriate JAVA_HOME value
+# based on whether the JDK or only the JRE is installed
+RUN { \
+		echo '#!/bin/sh'; \
+		echo 'set -e'; \
+		echo; \
+		echo 'dirname "$(dirname "$(readlink -f "$(which javac || which java)")")"'; \
+	} > /usr/local/bin/docker-java-home \
+	&& chmod +x /usr/local/bin/docker-java-home
+ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk
+ENV PATH $PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin
 
-RUN set -eux; \
-	\
-	wget -O /openjdk.tgz "$JAVA_URL"; \
-	echo "$JAVA_SHA256 */openjdk.tgz" | sha256sum -c -; \
-	mkdir -p "$JAVA_HOME"; \
-	tar --extract --file /openjdk.tgz --directory "$JAVA_HOME" --strip-components 1; \
-	rm /openjdk.tgz; \
-	\
-# https://github.com/docker-library/openjdk/issues/212#issuecomment-420979840
-# http://openjdk.java.net/jeps/341
-	java -Xshare:dump; \
-	\
-# basic smoke test
-	java --version; \
-	javac --version
+ENV JAVA_VERSION 8u181
+ENV JAVA_ALPINE_VERSION 8.181.13-r0
+
+RUN set -x \
+	&& apk add --no-cache \
+		openjdk8="$JAVA_ALPINE_VERSION" \
+	&& [ "$JAVA_HOME" = "$(docker-java-home)" ]
 
 
 # digdag
