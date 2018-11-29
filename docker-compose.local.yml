@@ -1,0 +1,7 @@
+version: '3'
+services:
+  digdag:
+    ports:
+      - "65432:65432"
+    environment:
+      DIGDAG_PORT: 65432
