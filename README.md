@@ -3,12 +3,13 @@ digdag on docker
 
 digdag in docker.
 digdagのワークフローもdockerで動かしたほうが安心です。rubyとかpythonとか確認してない。
+zeusですでにdigdagが動いており、ポートの設定周りでファイルをわけてあります。
 
 
 ## ローカル
 
 ```bash
-$ docker-compose up --build
+$ docker-compose -f docker-compose.yml -f docker-compose.local.yml up --build
 ```
 
 テストで確認するには、
@@ -31,7 +32,7 @@ $ digdag sessions
 zeusですでにdigdag severが動いてるのでこの処置をしてます。
 
 ```bash
-$ docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d 
+$ docker-compose -f docker-compose.yml -f docker-compose.zeus.yml up --build -d 
 ```
 
 クライアントは同じサーバーの場合は
