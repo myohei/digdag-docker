@@ -4,8 +4,8 @@ services:
     build:
       context: ./digdag
       dockerfile: ./Dockerfile
-#    ports:
-#      - "65432:65432"
+    ports:
+      - "65432:65432"
     volumes:
       - /tmp:/tmp
       - /var/run/docker.sock:/var/run/docker.sock
