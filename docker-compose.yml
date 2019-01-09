@@ -20,6 +20,7 @@ services:
       DB_NAME: digdag
     links:
       - postgres
+    restart: always
     privileged: true
 
   postgres:
