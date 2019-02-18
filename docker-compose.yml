@@ -20,12 +20,12 @@ services:
       DB_NAME: digdag
     links:
       - postgres
-    restart: always
+    restart: unless-stopped
     privileged: true
 
   postgres:
     image: postgres:11-alpine
-    restart: always
+    restart: unless-stopped
     environment:
       POSTGRES_PASSWORD: digdag
       POSTGRES_USER: digdag
