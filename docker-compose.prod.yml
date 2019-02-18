@@ -1,0 +1,10 @@
+version: '3'
+services:
+  digdag:
+    build:
+      context: ./digdag
+      dockerfile: ./Dockerfile
+    restart: always
+  postgres:
+    image: postgres:11-alpine
+    restart: always
