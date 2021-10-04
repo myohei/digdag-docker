@@ -1,9 +1,9 @@
-FROM docker:18.09-dind
+FROM docker:20.10.8-dind-alpine3.14
 
 # 参考
 # https://github.com/myui/dockernized-digdag-server/blob/master/Dockerfile
 
-MAINTAINER yohei.maeda@ghs.tokyo
+MAINTAINER yohei.maeda.11@gmail.com
 
 # java
 # https://github.com/docker-library/openjdk/blob/266f01a904/8/jdk/alpine/Dockerfile
@@ -22,10 +22,11 @@ RUN { \
 ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk
 ENV PATH $PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin
 
-ENV JAVA_VERSION 8u181
-ENV JAVA_ALPINE_VERSION 8.181.13-r0
+ENV JAVA_VERSION 8u282
+ENV JAVA_ALPINE_VERSION 8.282.08-r1
 
 RUN set -x \
+    && apk update \
 	&& apk add --no-cache \
 		openjdk8="$JAVA_ALPINE_VERSION" \
 	&& [ "$JAVA_HOME" = "$(docker-java-home)" ]
@@ -33,7 +34,7 @@ RUN set -x \
 
 # digdag
 
-ENV DIGDAG_VERSION=0.9.31
+ENV DIGDAG_VERSION=0.10.3
 
 RUN apk add --no-cache curl && \
     curl -o /usr/bin/digdag --create-dirs -L "https://dl.digdag.io/digdag-$DIGDAG_VERSION" && \
@@ -44,10 +45,9 @@ RUN apk add --no-cache curl && \
     chown -R digdag.digdag /var/lib/digdag && \
     \
     apk --no-cache update && \
-    apk --no-cache add python py-pip py-setuptools ca-certificates curl groff less && \
+    apk --no-cache add ca-certificates curl groff less && \
     apk --no-cache add bash jq && \
     apk --no-cache add openrc && \
-    pip --no-cache-dir install awscli && \
     rm -rf /var/cache/apk/*
 
 COPY digdag.properties /etc/digdag.properties
