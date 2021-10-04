@@ -20,12 +20,23 @@ services:
       DB_NAME: digdag
     links:
       - postgres
+    depends_on:
+      - postgres
     restart: unless-stopped
     privileged: true
+
+  client:
+    build:
+      context: ./digdag-client
+      dockerfile: Dockerfile
+    links:
+      - digdag
 
   postgres:
     image: postgres:11-alpine
     restart: unless-stopped
+    ports:
+      - 15432:5432
     environment:
       POSTGRES_PASSWORD: digdag
       POSTGRES_USER: digdag
