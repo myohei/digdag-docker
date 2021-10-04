@@ -25,13 +25,6 @@ services:
     restart: unless-stopped
     privileged: true
 
-  client:
-    build:
-      context: ./digdag-client
-      dockerfile: Dockerfile
-    links:
-      - digdag
-
   postgres:
     image: postgres:11-alpine
     restart: unless-stopped
