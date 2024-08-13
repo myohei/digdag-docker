@@ -1,24 +1,19 @@
 digdag on docker
 -------------------------------
 
-digdag in docker.
-digdagのワークフローもdockerで動かしたほうが安心です。rubyとかpythonとか確認してない。
-~~zeusですでにdigdagが動いており、ポートの設定周りでファイルをわけてあります。~~
+digdag in Docker. We have only confirmed that the digdag workflow runs within Docker.
 
-
-## ローカル
+## Local
 
 ```bash
 $ docker-compose -f docker-compose.yml -f docker-compose.local.yml up --build
 ```
 
-テストで確認するには、
+for testing
 
 ```bash 
 $ digdag sessions
 ```
-
-で動くのを確認したり、[digdag-workflows](https://github.com/Growth-Hack-Studio/digdag-workflows)のサンプルをPushしてみたり。
 
 ```bash
 $ cd ${digdag-workflows}/test-docker
@@ -26,19 +21,14 @@ $ digdag push hoge
 $ digdag sessions
 ```
 
-## 本番
-
-~~`-f` で `docker-compose.prod.yml` を指定する。 ポートが`65433`なのをお気をつけて。
-zeusですでにdigdag severが動いてるのでこの処置をしてます。~~
+## Production
 
 ```bash
 $ docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d 
 ```
 
-クライアントは同じサーバーの場合は
+You can check the session with the following command if the client is on the same server.
 
 ```bash
 $ digdag session -e http://127.0.0.1:65432
 ```
-
-とかで確認できます。 `-e`オプションがエンドポイント指してます。
